@@ -504,7 +504,7 @@ var randStr = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-!@
 func RandStrings(strLen int, count int, mixCNChar bool) []string {
 	result := make([]string, count)
 	for i := 0; i < count; i++ {
-		result[i] = string(randStr[rand.Intn(len(randStr))])
+		result[i] = fmt.Sprintf("'%s'", string(randStr[rand.Intn(len(randStr))]))
 		// result[i] = fmt.Sprintf("'%s'", RandStringRunes(rand.Intn(strLen), mixCNChar))
 	}
 	sort.Slice(result, func(i, j int) bool {

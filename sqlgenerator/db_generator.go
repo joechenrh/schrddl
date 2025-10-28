@@ -253,28 +253,28 @@ func (c *Column) RandomValuesAsc(count int) []string {
 	if c.IsUnsigned {
 		switch c.Tp {
 		case ColumnTypeTinyInt:
-			return RandomNums(0, 255, count)
+			return RandomNums(0, 127, count)
 		case ColumnTypeSmallInt:
-			return RandomNums(0, 65535, count)
+			return RandomNums(0, 127, count)
 		case ColumnTypeMediumInt:
-			return RandomNums(0, 16777215, count)
+			return RandomNums(0, 127, count)
 		case ColumnTypeInt:
-			return RandomNums(0, 4294967295, count)
+			return RandomNums(0, 127, count)
 		case ColumnTypeBigInt:
-			return RandomNumsUBig(count)
+			return RandomNums(0, 127, count)
 		}
 	}
 	switch c.Tp {
 	case ColumnTypeTinyInt:
-		return RandomNums(-128, 127, count)
+		return RandomNums(0, 127, count)
 	case ColumnTypeSmallInt:
-		return RandomNums(-32768, 32767, count)
+		return RandomNums(0, 127, count)
 	case ColumnTypeMediumInt:
-		return RandomNums(-8388608, 8388607, count)
+		return RandomNums(0, 127, count)
 	case ColumnTypeInt:
-		return RandomNums(-2147483648, 2147483647, count)
+		return RandomNums(0, 127, count)
 	case ColumnTypeBigInt:
-		return RandomNums(-9223372036854775808, 9223372036854775807, count)
+		return RandomNums(0, 127, count)
 	case ColumnTypeBoolean:
 		return RandomNums(0, 1, count)
 	case ColumnTypeFloat, ColumnTypeDouble:
@@ -499,10 +499,13 @@ func RandNumRunes(n int) string {
 	return string(b)
 }
 
+var randStr = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-!@#$^&*()_+=[]{}|<>"
+
 func RandStrings(strLen int, count int, mixCNChar bool) []string {
 	result := make([]string, count)
 	for i := 0; i < count; i++ {
-		result[i] = fmt.Sprintf("'%s'", RandStringRunes(rand.Intn(strLen), mixCNChar))
+		result[i] = string(randStr[rand.Intn(len(randStr))])
+		// result[i] = fmt.Sprintf("'%s'", RandStringRunes(rand.Intn(strLen), mixCNChar))
 	}
 	sort.Slice(result, func(i, j int) bool {
 		return result[i] < result[j]
